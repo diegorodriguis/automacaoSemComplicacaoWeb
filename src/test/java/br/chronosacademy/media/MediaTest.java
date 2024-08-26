@@ -1,9 +1,11 @@
-package br.com.chronosacademy.media;
+package br.chronosacademy.media;
 
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import br.com.chronosacademy.media.Media;
+import org.junit.Test;
+
 
 import static org.junit.Assert.assertEquals;
+
 
 public class MediaTest {
 
