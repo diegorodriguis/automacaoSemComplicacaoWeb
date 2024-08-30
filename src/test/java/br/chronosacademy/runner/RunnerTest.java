@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources/features/",
-        glue = "src/test/java/br/chronosacademy/steps",
-        tags = "@login",
+        glue = "br.chronosacademy.steps",
+        tags = "@dadosEmBranco",
         monochrome = true,
-        dryRun = true,
+        dryRun = false,
         plugin ={"json:target/reports/cucumberReports.json", "pretty"},
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
