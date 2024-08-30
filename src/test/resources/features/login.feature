@@ -7,14 +7,17 @@ Funcionalidade: Login
   Contexto: Deve clicar no icone para exibir a modal
     Dado que a modal esteja sendo exibida
 
+    @fecharModal
   Cenario: Fechar a modal fora dela
     Quando for realizado um clique fora da modal
     Entao a modal deve ser fechada
 
+  @fecharModalIcone @fecharModal
   Cenario: Fechar a modal clicando no ícone
     Quando for realizado um clique no icone
     Entao a modal deve ser fechada
 
+    @CreateAccount
   Cenario: Link create new account
     Quando for realizado um clique no link Create new account
     Entao deve ser direcionado para tela de criacao de conta
@@ -45,13 +48,13 @@ Funcionalidade: Login
       | login invalido | invalido | senha    | false    |
       | senha invalida | chronos  | invalida | true     |
 
+  @dadosEmBranco
   Esquema do Cenario:  Realizar login com <identificacao>
     Quando os campos de login sejam preechidos da seguinte forma
       | login    | <login>    |
       | password | <password> |
       | remember | <remember> |
-    Quando for realizado o clique no botao sign in
-    Entao sistema deve exibir uma mensagem de erro
+    Entao o botao sign in deve ficar desabilitado
 
     Exemplos:
       | identificacao     | login   | password | remember |
