@@ -7,7 +7,7 @@ Funcionalidade: Login
   Contexto: Deve clicar no icone para exibir a modal
     Dado que a modal esteja sendo exibida
 
-    @fecharModal
+  @fecharModal
   Cenario: Fechar a modal fora dela
     Quando for realizado um clique fora da modal
     Entao a modal deve ser fechada
@@ -17,11 +17,12 @@ Funcionalidade: Login
     Quando for realizado um clique no icone
     Entao a modal deve ser fechada
 
-    @CreateAccount
+  @CreateAccount
   Cenario: Link create new account
     Quando for realizado um clique no link Create new account
     Entao deve ser direcionado para tela de criacao de conta
 
+  @loginComSucesso
   Esquema do Cenario: Realizar login com <identificacao>
     Quando os campos de login sejam preechidos da seguinte forma
       | login    | <login>    |
@@ -31,10 +32,11 @@ Funcionalidade: Login
     Entao deve ser logado no sistema
 
     Exemplos:
-      | identificacao       | login   | password | remember |
-      | campos obrigatorios | chronos | senha    | false    |
-      | todos os campos     | chronos | senha    | true     |
+      | identificacao       | login     | password | remember |
+      | campos obrigatorios | lokocrazy | Lc123456 | false    |
+      | todos os campos     | lokocrazy | Lc123456 | true     |
 
+  @loginDadosInvalidos
   Esquema do Cenario:  Realizar login com <identificacao>
     Quando os campos de login sejam preechidos da seguinte forma
       | login    | <login>    |
@@ -44,9 +46,9 @@ Funcionalidade: Login
     Entao sistema deve exibir uma mensagem de erro
 
     Exemplos:
-      | identificacao  | login    | password | remember |
-      | login invalido | invalido | senha    | false    |
-      | senha invalida | chronos  | invalida | true     |
+      | identificacao  | login     | password | remember |
+      | login invalido | invalido  | Lc123456 | false    |
+      | senha invalida | lokocrazy | invalida | true     |
 
   @dadosEmBranco
   Esquema do Cenario:  Realizar login com <identificacao>

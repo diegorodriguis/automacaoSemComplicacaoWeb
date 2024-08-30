@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class LoginSteps {
     LoginPage loginPage;
+    String userName;
 
     @Before
     public void iniciarNavegador(){
@@ -67,7 +68,7 @@ public class LoginSteps {
 
     @Quando("os campos de login sejam preechidos da seguinte forma")
     public void osCamposDeLoginSejamPreechidosDaSeguinteForma(Map<String, String> map) {
-        String userName = map.get("login");
+        userName = map.get("login");
         String password = map.get("password");
         boolean remember = Boolean.parseBoolean(map.get("remember"));
 
@@ -87,12 +88,13 @@ public class LoginSteps {
 
     @Entao("deve ser logado no sistema")
     public void deveSerLogadoNoSistema() {
+        Assert.assertEquals(userName, loginPage.getTextUsuarioLogado());
     }
 
     @Entao("sistema deve exibir uma mensagem de erro")
     public void sistemaDeveExibirUmaMensagemDeErro() {
+        Assert.assertEquals("Incorrect user name or password.", loginPage.getTextErroLogin());
     }
-
 
     @Entao("o botao sign in deve ficar desabilitado")
     public void oBotaoSignInDeveFicarDesabilitado() {

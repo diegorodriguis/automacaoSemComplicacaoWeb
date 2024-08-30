@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features/",
         glue = "br.chronosacademy.steps",
-        tags = "@dadosEmBranco",
+        tags = "@login",
         monochrome = true,
         dryRun = false,
         plugin ={"json:target/reports/cucumberReports.json", "pretty"},
