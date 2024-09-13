@@ -6,11 +6,13 @@ import br.chronosacademy.pages.LoginPage;
 import br.chronosacademy.pages.NewAccountPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
 import org.junit.Assert;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class LoginSteps {
@@ -18,11 +20,16 @@ public class LoginSteps {
     String userName;
 
     @Before
-    public void iniciarNavegador(){
+    public void iniciarNavegador(Scenario scenario){
         new Driver(Browser.CHROME);
+        Driver.setNameScenario(scenario.getName());
+        Driver.creatDirectory();
     }
     @After
-    public void fecharNavegador(){
+    public void fecharNavegador(Scenario scenario) throws IOException {
+        if (scenario.isFailed()){
+            Driver.printScreen("Error - Momento que houve a falha no cenario");
+        }
         Driver.getDriver().quit();
     }
 
@@ -67,7 +74,7 @@ public class LoginSteps {
     }
 
     @Quando("os campos de login sejam preechidos da seguinte forma")
-    public void osCamposDeLoginSejamPreechidosDaSeguinteForma(Map<String, String> map) {
+    public void osCamposDeLoginSejamPreechidosDaSeguinteForma(Map<String, String> map) throws IOException {
         userName = map.get("login");
         String password = map.get("password");
         boolean remember = Boolean.parseBoolean(map.get("remember"));
@@ -78,6 +85,7 @@ public class LoginSteps {
         if (remember){
             loginPage.clicarImpRemember();
         }
+        Driver.printScreen("Preenchimento dos campos de login");
     }
 
     @Quando("for realizado o clique no botao sign in")
@@ -87,8 +95,9 @@ public class LoginSteps {
     }
 
     @Entao("deve ser logado no sistema")
-    public void deveSerLogadoNoSistema() {
+    public void deveSerLogadoNoSistema() throws IOException {
         Assert.assertEquals(userName, loginPage.getTextUsuarioLogado());
+        Driver.printScreen("Tela de usuario logado no sistema");
     }
 
     @Entao("sistema deve exibir uma mensagem de erro")

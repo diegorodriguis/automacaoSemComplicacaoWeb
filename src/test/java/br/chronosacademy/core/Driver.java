@@ -2,47 +2,91 @@ package br.chronosacademy.core;
 
 import br.chronosacademy.enums.Browser;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 
 public class Driver {
     private static WebDriver driver;
     private static WebDriverWait wait;
+    private static String nameScenario;
+    private static File directory;
+    private static int numberPrint;
+
+    public static File getDirectory() {
+        return directory;
+    }
+
+    public static String getNameScenario() {
+        return nameScenario;
+    }
+
+    public static void setNameScenario(String nameScenario) {
+        Driver.nameScenario = nameScenario;
+    }
 
     public Driver(Browser navegador){
         switch (navegador){
             case CHROME:
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                startChrome();
                 break;
             case EDGE:
-                WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
+               startEdge();
                 break;
             case FIREFOX:
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
+                startFireFox();
                 break;
             case IE:
-                WebDriverManager.iedriver().setup();
-                driver = new InternetExplorerDriver();
-                break;
-            default:
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                startIE();
                 break;
         }
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.manage().window().maximize();
 
+    }
+
+    private static void startIE() {
+        WebDriverManager.iedriver().setup();
+        driver = new InternetExplorerDriver();
+    }
+
+    private static void startFireFox() {
+        WebDriverManager.firefoxdriver().setup();
+        driver = new FirefoxDriver();
+    }
+
+    private static void startEdge() {
+        WebDriverManager.edgedriver().setup();
+        driver = new EdgeDriver();
+    }
+
+    private static void startChrome() {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions chromeOptions = new ChromeOptions();
+
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless"));
+
+        if (headless) {
+            chromeOptions.addArguments("--headless");
+        }
+
+        chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("--window-size=1920,1080");
+
+        driver = new ChromeDriver(chromeOptions);
     }
 
     public static WebDriver getDriver(){
@@ -59,6 +103,20 @@ public class Driver {
     public static void attributChange(WebElement element, String attribut, String value){
         wait.until(ExpectedConditions.attributeContains(element,attribut,value));
 
+    }
+
+    public static void creatDirectory(){
+        String path = "src/test/resources/evidencias";
+        directory = new File(path +"/"+ nameScenario);
+        directory.mkdir();
+        numberPrint = 0;
+    }
+
+    public static void printScreen(String pass) throws IOException {
+        numberPrint++;
+        File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        String path = directory.getPath() + "/"+numberPrint +" - " + pass + ".png";
+        FileUtils.copyFile(file, new File(path));
     }
 
 }
