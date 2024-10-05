@@ -13,6 +13,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -117,6 +118,18 @@ public class Driver {
         File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         String path = directory.getPath() + "/"+numberPrint +" - " + pass + ".png";
         FileUtils.copyFile(file, new File(path));
+    }
+    public static void aguardaOptions(Select select){
+       for(int i = 0; i < 6; i++){
+           if (select.getOptions().size() > 1){
+               return;
+           }
+           try {
+               Thread.sleep(500);
+           } catch (InterruptedException e) {
+
+           }
+       }
     }
 
 }
