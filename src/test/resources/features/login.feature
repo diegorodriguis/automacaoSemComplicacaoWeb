@@ -12,7 +12,7 @@ Funcionalidade: Login
     Quando for realizado um clique fora da modal
     Entao a modal deve ser fechada
 
-  @fecharModalIcone @fecharModal
+  @fecharModalIcone
   Cenario: Fechar a modal clicando no ícone
     Quando for realizado um clique no icone
     Entao a modal deve ser fechada
